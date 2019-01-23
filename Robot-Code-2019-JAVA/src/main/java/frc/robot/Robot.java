@@ -7,18 +7,13 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.DrivebaseSubsystem;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -28,15 +23,8 @@ import frc.robot.subsystems.ExampleSubsystem;
  * project.
  */
 public class Robot extends TimedRobot {
-  public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
+  public static DrivebaseSubsystem Drivebase;
   public static OI oi;
-
-  private DifferentialDrive m_drive;
-  public Joystick m_gamepad;
-  public Joystick m_stick;
-  public WPI_TalonSRX MasterL;
-  public WPI_TalonSRX MasterR;
-
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -48,22 +36,9 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     oi = new OI();
-    m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
+    Drivebase = new DrivebaseSubsystem();
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
-
-    m_gamepad = new Joystick(RobotMap.m_gamepadPort);
-    m_stick = new Joystick(RobotMap.m_stickPort);
-
-    WPI_TalonSRX MasterL = new WPI_TalonSRX(RobotMap.MasterLPort);
-    WPI_VictorSPX SlaveL = new WPI_VictorSPX(RobotMap.SlaveLPort);
-    WPI_TalonSRX MasterR = new WPI_TalonSRX(RobotMap.MasterRPort);
-    WPI_VictorSPX SlaveR = new WPI_VictorSPX(RobotMap.SlaveRPort);
-
-    SlaveL.follow(MasterL);
-    SlaveR.follow(MasterR);
-
-    m_drive = new DifferentialDrive(MasterL, MasterR);
 
   }
 
@@ -146,11 +121,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    //Manual Controls
-    m_drive.tankDrive(m_gamepad.getRawAxis(1), m_gamepad.getRawAxis(5));
-    //TEST ONLY
-    //m_drive.tankDrive(RobotMap.speed, RobotMap.speed);
-  
   }
   /**
    * This function is called periodically during test mode.
