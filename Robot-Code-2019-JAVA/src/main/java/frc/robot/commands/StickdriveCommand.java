@@ -25,7 +25,8 @@ public class StickdriveCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.Drivebase.setspeed(Robot.oi.m_gamepad.getRawAxis(1), Robot.oi.m_gamepad.getRawAxis(5));
+    //Robot.Drivebase.setspeed(Robot.oi.m_gamepad.getRawAxis(1), Robot.oi.m_gamepad.getRawAxis(5));
+    Robot.Drivebase.arcadeDrive(Robot.oi.m_stick.getX(), Robot.oi.m_stick.getX());
   }
 
   // Make this return true when this Command no longer needs to run execute()
