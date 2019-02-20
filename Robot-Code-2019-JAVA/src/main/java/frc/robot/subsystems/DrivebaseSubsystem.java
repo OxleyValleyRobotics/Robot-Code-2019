@@ -34,15 +34,19 @@ public class DrivebaseSubsystem extends Subsystem {
     SlaveL.setInverted(true);
     SlaveL.follow(MasterL);
     SlaveR.follow(MasterR);
-
+    DifferentialDrive m_drive = new DifferentialDrive(MasterL, MasterR);
     
+  
 
   }
 
+  
   public void setspeed(double leftspeed, double rightspeed){
     MasterL.set(ControlMode.PercentOutput, leftspeed);
     MasterR.set(ControlMode.PercentOutput, rightspeed);
   }
+
+    
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
